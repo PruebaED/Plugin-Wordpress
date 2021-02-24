@@ -138,6 +138,11 @@ class CarlosIIIJobs {
          * The class responsible for defining shortcode.
          */
         require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-CarlosIIIJobs-shortcode.php';
+ 
+        /**
+         * La clase responsable de gestionar las opciones.
+         */
+        require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-CarlosIIIJobs-options.php';
 
 		$this->loader = new CarlosIIIJobs_Loader();
 
@@ -180,6 +185,13 @@ class CarlosIIIJobs {
         $plugin_shortcode = new CarlosIIIJobs_shortcode();
 
         $this->loader->add_action( 'init', $plugin_shortcode, 'CarlosIIIJobs_shortcode_init' );
+
+        // Creando una entrada nueva en el menú Jobs
+        $plugin_options = new CarlosIIIJobs_Options();
+
+        $this->loader->add_action( 'admin_menu', $plugin_options, 'CarlosIIIJob_options_menu' );
+
+        $this->loader->add_action( 'admin_init', $plugin_options, 'CarlosIIIJobRegistraOpciones' );
 
 	}
 
