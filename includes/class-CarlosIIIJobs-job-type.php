@@ -90,6 +90,7 @@ if(!class_exists('CarlosIIIJobs_job_type'))
         public function send_mail($post_id)
         {
             if($emails = get_option('CarlosIIIJob_suscriptores')) {
+
                 $post = get_post($post_id);
                 $author = $post->post_author; /* Post author ID. */
                 // $name = get_the_author_meta( 'display_name', $author );
@@ -104,6 +105,14 @@ if(!class_exists('CarlosIIIJobs_job_type'))
                 $message = sprintf ('Congratulations! Your article “%s” has been published.' . "\n\n", $title );
                 $message .= sprintf( 'View: %s', $permalink );
                 $headers[] = '';
+
+                /* global $wpdb;
+
+                $table_name = $wpdb->prefix . "c3jSuscriptores";
+
+                $query = "SELECT titulacion FROM $table_name WHERE email = $to";
+
+                $wpdb->get_var($query); */
 
                 wp_mail( $to, $subject, $message, $headers );
 

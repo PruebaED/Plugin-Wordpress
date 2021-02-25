@@ -47,6 +47,7 @@ class CarlosIIIJobs_Activator {
 	      id mediumint(9) NOT NULL AUTO_INCREMENT,
 	      time datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
 	      email varchar(100) DEFAULT '' NOT NULL,
+	      titulacion varchar(3) DEFAULT '' NOT NULL,
 	      PRIMARY KEY  (id)
 	    ) $charset_collate;";
 

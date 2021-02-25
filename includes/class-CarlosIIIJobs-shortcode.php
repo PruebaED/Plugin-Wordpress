@@ -7,7 +7,12 @@ class CarlosIIIJobs_shortcode
     {
         function CarlosIIIJobs_shortcode($atts = [], $content = null)
         {
-            if(!isset($atts['n_ofertas'])) $atts['n_ofertas'] = 5;
+
+            global $wpdb;
+ 
+            $query = "SELECT option_value from wp_options where option_name = 'CarlosIIIJob_options_nOfertas'";
+
+            if(!isset($atts['n_ofertas'])) $atts['n_ofertas'] = $wpdb->get_var($query);
 
             $query = new WP_Query( array( 'post_type' => 'job' , 'posts_per_page' => $atts['n_ofertas']) );
             ob_start();

@@ -107,9 +107,21 @@ class CarlosIIIJobs_Admin {
         );
 
         $emailSuscriptor = htmlspecialchars($_POST["email"]);
+
+        $titulacionSuscriptor = htmlspecialchars($_POST["titulacion"]);
+
         if(!$this->getSuscriptor($emailSuscriptor)) {
-            $this->addSuscriptor($emailSuscriptor);
-            $response['message'] = __("Solicitud registrada correctamente");
+
+            if (!$this->addSuscriptor($emailSuscriptor, $titulacionSuscriptor)) {
+
+            	$response['message'] = __("Debe introducir un dominio válido para poder registrar su solicitud");
+
+            } else {
+
+        		$response['message'] = __("Solicitud registrada correctamente");
+
+            }
+
         } else {
             $response['message'] = __("Usted ya solicitó subscribirse");
         }
@@ -128,24 +140,37 @@ class CarlosIIIJobs_Admin {
            // y acceder a ella desde este código
            // $table_name = $wpdb->prefix . CarlosIIIJobs::C3JSUSCRIPTORES_TABLE;
        	$query = "SELECT count(email) FROM $table_name WHERE email = %s";
-       	$existeSuscriptor = $wpdb->get_var( $wpdb->prepare($query, $emailSuscriptor)); 
+       	$existeSuscriptor = $wpdb->get_var( $wpdb->prepare($query, $emailSuscriptor));
        	return $existeSuscriptor > 0;
 
     }
 
-    public function addSuscriptor($emailSuscriptor) {
+    public function addSuscriptor($emailSuscriptor, $titulacionSuscriptor) {
 
        global $wpdb;
+
+       $query = "SELECT option_value from wp_options where option_name = 'CarlosIIIJob_options_dominio'";
+
+       $dominioValido = false;
+
+       if (strpos($emailSuscriptor, $wpdb->get_var($query)) == true) {
 
        	$table_name = $wpdb->prefix . "c3jSuscriptores";
        	$wpdb->insert(
            	$table_name,
            	array(
                    'email' => $emailSuscriptor,
+                   'titulacion' => $titulacionSuscriptor,
                    'time' => current_time('mysql', 2),
            	),
            	array('%s')
        	);
+
+       	$dominioValido = true;
+
+       }
+
+       return $dominioValido;
 
     }
 

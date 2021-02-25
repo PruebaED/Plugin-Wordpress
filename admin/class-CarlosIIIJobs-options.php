@@ -91,7 +91,7 @@ class CarlosIIIJobs_Options {
 			update_option('CarlosIIIJob_options_dominio', htmlspecialchars($_POST["CarlosIIIJob_options_dominio"]));
 			update_option('CarlosIIIJob_options_nOfertas', htmlspecialchars($_POST["CarlosIIIJob_options_nOfertas"]));
 			wp_redirect( admin_url( 'edit.php?post_type=' . CarlosIIIJobs_job_type::POST_TYPE) );
-			
+
 		}
 
 	}
